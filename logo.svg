@@ -1,0 +1,17 @@
+<svg width="100" height="100" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fond circulaire -->
+  <circle cx="50" cy="50" r="45" fill="#5C162E" opacity="0.9"/>
+  
+  <!-- Bougie centrale -->
+  <rect x="45" y="30" width="10" height="35" fill="#F3E5AB" rx="1"/>
+  
+  <!-- Flamme -->
+  <path d="M50 25 Q45 15 50 10 Q55 15 50 25" fill="#C5A059" opacity="0.9"/>
+  <path d="M50 20 Q48 18 50 15 Q52 18 50 20" fill="#FFD700" opacity="0.8"/>
+  
+  <!-- Font de cire -->
+  <ellipse cx="50" cy="65" rx="8" ry="2" fill="#D4AF37" opacity="0.6"/>
+  
+  <!-- Texte -->
+  <text x="50" y="85" font-family="serif" font-size="8" font-style="italic" text-anchor="middle" fill="#F3E5AB">Bougie Déco</text>
+</svg>

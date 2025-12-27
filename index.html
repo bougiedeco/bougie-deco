@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bougie Déco | Bougies Artisanales & Fondants</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- LightWidget Script -->
+    <script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script>
+    <style>
+        :root {
+            --bordeaux: #3D0A1F;
+            --dore: #B8860B;
+            --blanc-casse: #F9F9F9;
+            --lin: #F5F5F0;
+        }
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--blanc-casse);
+            scroll-behavior: smooth;
+        }
+        h1, h2, h3, .serif {
+            font-family: 'Playfair Display', serif;
+        }
+        .bg-bordeaux { background-color: var(--bordeaux); }
+        .text-bordeaux { color: var(--bordeaux); }
+        .text-dore { color: var(--dore); }
+        .border-dore { border-color: var(--dore); }
+        .bg-blanc-casse { background-color: var(--blanc-casse); }
+        .bg-lin { background-color: var(--lin); }
+        .btn-primary {
+            background-color: var(--bordeaux);
+            color: white;
+            padding: 16px 40px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 300;
+            font-size: 0.875rem;
+            transition: all 0.4s ease;
+            border: 1px solid transparent;
+        }
+        .btn-primary:hover {
+            background-color: #2A0815;
+            transform: translateY(-1px);
+            box-shadow: 0 10px 30px rgba(61, 10, 31, 0.2);
+        }
+        /* Animation pour le panier */
+        @keyframes slideIn {
+            from { transform: translateX(100%); }
+            to { transform: translateX(0); }
+        }
+        @keyframes slideOut {
+            from { transform: translateX(0); }
+            to { transform: translateX(100%); }
+        }
+        .cart-slide-in { animation: slideIn 0.3s forwards; }
+        .cart-slide-out { animation: slideOut 0.3s forwards; }
+        /* Animation pour les cartes produits */
+        .product-card {
+            transition: all 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        /* Animation de fade-in pour les sections */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <div class="flex items-center">
+            <div class="w-48 h-48 mr-3 flex items-center justify-center">
+                <img src="img/logo.png" alt="Bougie Déco Logo" class="w-full h-full object-contain">
+            </div>
+            <div class="text-2xl font-bold text-bordeaux serif italic">Bougie Déco</div>
+        </div>
+            <!-- Menu desktop -->
+            <div class="hidden md:flex space-x-8 uppercase text-xs tracking-widest font-semibold">
+                <a href="#accueil" class="hover:text-dore transition py-2">Accueil</a>
+                <a href="#boutique" class="hover:text-dore transition py-2">Collection</a>
+                <a href="#experience" class="hover:text-dore transition py-2">L'Expérience</a>
+                <a href="#savoir-faire" class="hover:text-dore transition py-2">Savoir-Faire</a>
+                <a href="#coffrets" class="hover:text-dore transition py-2">Coffrets</a>
+                <a href="#instagram" class="hover:text-dore transition py-2">Instagram</a>
+            </div>
+            <!-- Boutons panier et menu mobile -->
+            <div class="flex items-center space-x-4">
+                <!-- Panier avec compteur -->
+                <div class="relative">
+                    <button id="cart-button" class="text-bordeaux hover:text-or transition">
+                        <i class="fas fa-shopping-bag text-xl"></i>
+                        <span id="cart-count" class="absolute -top-2 -right-2 bg-bordeaux text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">0</span>
+                    </button>
+                </div>
+                <!-- Menu mobile -->
+                <button id="mobile-menu-button" class="md:hidden text-bordeaux">
+                    <i class="fas fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Menu mobile (caché par défaut) -->
+        <div id="mobile-menu" class="hidden md:hidden bg-white px-6 py-4 shadow-md">
+            <div class="flex flex-col space-y-4 uppercase text-sm font-semibold">
+                <a href="#accueil" class="hover:text-dore transition py-2 border-b border-gray-100">Accueil</a>
+                <a href="#boutique" class="hover:text-dore transition py-2 border-b border-gray-100">Collection</a>
+                <a href="#experience" class="hover:text-dore transition py-2 border-b border-gray-100">L'Expérience</a>
+                <a href="#savoir-faire" class="hover:text-dore transition py-2 border-b border-gray-100">Savoir-Faire</a>
+                <a href="#coffrets" class="hover:text-dore transition py-2 border-b border-gray-100">Coffrets</a>
+                <a href="#instagram" class="hover:text-dore transition py-2">Instagram</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section Luxueuse -->
+    <header id="accueil" class="relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0">
+            <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=90&w=1920" alt="Ambiance Bougie Luxe" class="w-full h-full object-cover">
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/30"></div>
+        </div>
+        <div class="relative text-center px-4 z-10">
+            <div class="max-w-4xl mx-auto">
+                <h1 class="text-6xl md:text-8xl mb-8 serif font-light tracking-wide text-white">L'Art du Parfum d'Intérieur</h1>
+                <p class="text-xl md:text-2xl font-light mb-12 text-white/90 max-w-3xl mx-auto leading-relaxed">Une collection exclusive de bougies et fondants parfumés, créés avec passion dans le respect de la tradition artisanale française.</p>
+                <a href="#boutique" class="btn-primary inline-block hover:shadow-2xl">Découvrir la Collection</a>
+            </div>
+        </div>
+        <!-- Indicateur de défilement élégant -->
+        <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2">
+            <a href="#boutique" class="text-white/80 hover:text-white transition-colors duration-300">
+                <div class="flex flex-col items-center">
+                    <span class="text-sm uppercase tracking-widest mb-2">Découvrir</span>
+                    <i class="fas fa-chevron-down text-xl"></i>
+                </div>
+            </a>
+        </div>
+    </header>
+
+    <!-- Section Vidéo Cinématographique -->
+    <section id="experience" class="py-24 px-8 bg-blanc-casse">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl md:text-5xl mb-6 serif font-light text-bordeaux">L'Expérience Bougie Déco</h2>
+                <div class="w-32 h-0.5 bg-dore mx-auto mb-8"></div>
+                <p class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">Découvrez l'artisanat d'excellence à travers notre film publicitaire cinématographique</p>
+            </div>
+            
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl max-w-4xl mx-auto">
+                <!-- Conteneur vidéo -->
+                <div class="relative aspect-video bg-black">
+                    <video id="bougie-video" class="w-full h-full object-cover" poster="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=90&w=1920">
+                        <!-- Vidéo de démonstration - remplacer par votre vidéo générée -->
+                        <source src="bougie-deco-video.mp4" type="video/mp4">
+                        Votre navigateur ne supporte pas la vidéo.
+                    </video>
+                    
+                    <!-- Overlay pour effet cinématographique -->
+                    <div id="video-overlay" class="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent flex items-center justify-center cursor-pointer transition-opacity duration-300">
+                        <div class="text-center">
+                            <!-- Icône de lecture -->
+                            <div class="w-20 h-20 bg-dore/20 rounded-full flex items-center justify-center mx-auto mb-6 hover:bg-dore/30 transition-colors duration-300">
+                                <i class="fas fa-play text-dore text-3xl ml-1"></i>
+                            </div>
+                            <p class="text-white text-lg">Cliquez pour lancer la vidéo</p>
+                            <p class="text-white/80 text-sm mt-2">Publicité cinématographique Bougie Déco</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Logo watermark subtil -->
+                    <div class="absolute top-6 right-6 opacity-20">
+                        <div class="w-12 h-12 flex items-center justify-center">
+                            <img src="img/logo.png" alt="Bougie Déco" class="w-full h-full object-contain">
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Informations sur la vidéo -->
+                <div class="bg-white p-6 border-t border-gray-100">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-xl serif text-bordeaux mb-2">L'Art du Parfum d'Intérieur</h3>
+                            <p class="text-gray-600 text-sm">Film publicitaire • 4K • Professional color grading</p>
+                        </div>
+                        <div class="flex items-center space-x-4 text-sm text-gray-500">
+                            <span><i class="fas fa-clock mr-1"></i> 30s</span>
+                            <span><i class="fas fa-video mr-1"></i> 4K</span>
+                            <span><i class="fas fa-palette mr-1"></i> Golden Hour</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Call-to-action -->
+            <div class="text-center mt-12">
+                <p class="text-gray-600 mb-6">Transformez votre intérieur avec nos créations artisanales</p>
+                <a href="#boutique" class="btn-primary inline-block">Découvrir la Collection</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Collection Luxueuse -->
+    <section id="boutique" class="max-w-6xl mx-auto py-32 px-8">
+        <div class="text-center mb-24 fade-in">
+            <h2 class="text-5xl md:text-6xl mb-6 serif font-light text-bordeaux">La Collection</h2>
+            <div class="w-32 h-0.5 bg-dore mx-auto mb-8"></div>
+            <p class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">Des créations uniques, façonnées à la main dans notre atelier provençal, pour sublimer vos moments de vie.</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-16">
+            <!-- Produit 1 -->
+            <div class="product-card bg-white rounded-2xl overflow-hidden cursor-pointer fade-in shadow-lg hover:shadow-2xl transition-all duration-500">
+                <div class="relative overflow-hidden aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1596433809252-260c2745dfdd?auto=format&fit=crop&q=90&w=800" alt="Bougie Jardin d'Or" class="w-full h-full object-cover transition duration-700 hover:scale-105">
+                    <div class="absolute top-6 left-6">
+                        <span class="bg-dore text-white px-4 py-2 text-xs uppercase tracking-widest">Exclusivité</span>
+                    </div>
+                </div>
+                <div class="p-8">
+                    <h3 class="text-2xl serif text-bordeaux mb-3 font-light">Jardin d'Or</h3>
+                    <p class="text-gray-500 text-sm mb-4 leading-relaxed">Notes florales de jasmin et vanille de Madagascar - 180h de combustion</p>
+                    <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                        <p class="text-dore text-2xl font-light">24,90 €</p>
+                        <button class="add-to-cart bg-bordeaux text-white px-6 py-3 text-sm uppercase tracking-widest hover:bg-opacity-90 transition-all duration-300 hover:shadow-lg" data-name="Bougie Jardin d'Or" data-price="24.90" data-image="https://images.unsplash.com/photo-1596433809252-260c2745dfdd?auto=format&fit=crop&q=90&w=400">
+                            <i class="fas fa-shopping-bag mr-2"></i> Ajouter
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produit 2 -->
+            <div class="product-card bg-white rounded-lg overflow-hidden cursor-pointer fade-in">
+                <div class="relative overflow-hidden aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?auto=format&fit=crop&q=80&w=800" alt="Fondant" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl serif italic text-bordeaux mb-1">Pack 6 Fondants</h3>
+                    <p class="text-gray-500 text-sm mb-2">Ambiance Cocooning - 6 parfums différents</p>
+                    <div class="flex justify-between items-center">
+                        <p class="font-bold text-or text-xl">12,50 €</p>
+                        <button class="add-to-cart bg-bordeaux text-white px-4 py-2 text-sm uppercase tracking-widest hover:bg-opacity-90 transition" data-name="Pack 6 Fondants" data-price="12.50" data-image="https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?auto=format&fit=crop&q=80&w=400">
+                            <i class="fas fa-plus mr-2"></i> Ajouter
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <!-- Produit 3 -->
+            <div class="product-card bg-white rounded-lg overflow-hidden cursor-pointer fade-in">
+                <div class="relative overflow-hidden aspect-[4/5]">
+                    <img src="https://images.unsplash.com/photo-1572726710708-2182fa571932?auto=format&fit=crop&q=80&w=800" alt="Bougie Bois" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                    <span class="absolute top-4 left-4 bg-bordeaux text-white px-3 py-1 text-xs uppercase tracking-widest">Populaire</span>
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl serif italic text-bordeaux mb-1">Bougie "Feu de Bois"</h3>
+                    <p class="text-gray-500 text-sm mb-2">Senteur Cèdre & Pin - 200h de combustion</p>
+                    <div class="flex justify-between items-center">
+                        <p class="font-bold text-or text-xl">26,00 €</p>
+                        <button class="add-to-cart bg-bordeaux text-white px-4 py-2 text-sm uppercase tracking-widest hover:bg-opacity-90 transition" data-name="Bougie Feu de Bois" data-price="26.00" data-image="https://images.unsplash.com/photo-1572726710708-2182fa571932?auto=format&fit=crop&q=80&w=400">
+                            <i class="fas fa-plus mr-2"></i> Ajouter
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Savoir-Faire -->
+    <section id="savoir-faire" class="bg-lin py-32 px-8">
+        <div class="max-w-7xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div class="fade-in">
+                    <h2 class="text-5xl mb-8 serif font-light text-bordeaux">Le Savoir-Faire</h2>
+                    <div class="w-32 h-0.5 bg-dore mb-8"></div>
+                    <p class="text-gray-700 text-lg mb-6 leading-relaxed">Chaque création Bougie Déco est le fruit d'un artisanat d'excellence, né d'une passion pour l'art de la parfumerie et le désir de créer des ambiances uniques et raffinées.</p>
+                    <p class="text-gray-700 mb-6 leading-relaxed">Notre atelier, situé au cœur de la Provence, perpétue une tradition séculaire. Nous sélectionnons avec une exigence absolue des matières premières d'exception : cire végétale de colza biologique, parfums naturels de Grasse, et mèches en coton biologique.</p>
+                    <p class="text-gray-700 mb-8 leading-relaxed">Chaque bougie est coulée, parfumée et finie à la main dans le respect des gestes traditionnels. Cette attention méticuleuse garantit une combustion propre, une diffusion olfactive subtile et une durée de vie exceptionnelle.</p>
+                    <div class="flex items-center space-x-8">
+                        <div class="text-center">
+                            <div class="text-3xl font-light text-dore mb-2">100%</div>
+                            <div class="text-sm text-gray-600">Artisanal</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-light text-dore mb-2">Bio</div>
+                            <div class="text-sm text-gray-600">Cire Végétale</div>
+                        </div>
+                        <div class="text-center">
+                            <div class="text-3xl font-light text-dore mb-2">Grasse</div>
+                            <div class="text-sm text-gray-600">Parfums</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative fade-in">
+                    <div class="aspect-square rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1585322316279-0c2d7a2c8c2b?auto=format&fit=crop&q=90&w=800" alt="Atelier Bougie Déco" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -bottom-8 -left-8 bg-dore text-white p-8 max-w-sm shadow-2xl">
+                        <h3 class="text-2xl serif mb-3 font-light">Made in France</h3>
+                        <p class="text-sm leading-relaxed">Un savoir-faire artisanal préservé dans notre atelier provençal</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Coffrets -->
+    <section id="coffrets" class="bg-gray-50 py-20 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-16 fade-in">
+                <h2 class="text-4xl text-bordeaux mb-2 italic serif">Coffrets Cadeaux</h2>
+                <div class="w-24 h-0.5 bg-or mx-auto mb-4"></div>
+                <p class="text-gray-600 max-w-2xl mx-auto">Offrez un moment de détente avec nos coffrets élégamment présentés. Idéal pour les cadeaux d'anniversaire, fêtes ou remerciements.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+                <div class="product-card bg-white rounded-lg overflow-hidden fade-in">
+                    <div class="md:flex">
+                        <div class="md:w-1/2 relative overflow-hidden aspect-square">
+                            <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&q=80&w=800" alt="Coffret Découverte" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        </div>
+                        <div class="md:w-1/2 p-8">
+                            <h3 class="text-2xl serif italic text-bordeaux mb-3">Coffret Découverte</h3>
+                            <p class="text-gray-700 mb-4">Un assortiment de nos 3 bougies best-sellers dans un coffret en bois recyclé.</p>
+                            <ul class="text-gray-600 mb-6 space-y-2">
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> Bougie Jardin d'Or</li>
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> Bougie Feu de Bois</li>
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> Bougie Océan</li>
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> Coffret en bois gravé</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <p class="font-bold text-or text-2xl">49,90 €</p>
+                                <button class="add-to-cart bg-bordeaux text-white px-6 py-3 text-sm uppercase tracking-widest hover:bg-opacity-90 transition" data-name="Coffret Découverte" data-price="49.90" data-image="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&q=80&w-400">
+                                    <i class="fas fa-gift mr-2"></i> Offrir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-card bg-white rounded-lg overflow-hidden fade-in">
+                    <div class="md:flex">
+                        <div class="md:w-1/2 relative overflow-hidden aspect-square">
+                            <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&q=80&w=800" alt="Coffret Zen" class="w-full h-full object-cover transition duration-500 hover:scale-110">
+                        </div>
+                        <div class="md:w-1/2 p-8">
+                            <h3 class="text-2xl serif italic text-bordeaux mb-3">Coffret Zen</h3>
+                            <p class="text-gray-700 mb-4">Pour créer une ambiance apaisante, avec bougies et accessoires de relaxation.</p>
+                            <ul class="text-gray-600 mb-6 space-y-2">
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> 2 bougies parfumées</li>
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> 6 fondants assortis</li>
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> Allume-bougie en laiton</li>
+                                <li class="flex items-center"><i class="fas fa-check text-or mr-2"></i> Éteignoir</li>
+                            </ul>
+                            <div class="flex justify-between items-center">
+                                <p class="font-bold text-or text-2xl">59,90 €</p>
+                                <button class="add-to-cart bg-bordeaux text-white px-6 py-3 text-sm uppercase tracking-widest hover:bg-opacity-90 transition" data-name="Coffret Zen" data-price="59.90" data-image="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&q=80&w-400">
+                                    <i class="fas fa-gift mr-2"></i> Offrir
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Instagram Widget -->
+    <section id="instagram" class="py-32 px-8 bg-blanc-casse">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-24">
+                <h2 class="text-5xl mb-8 serif font-light text-bordeaux">@BougieDecos</h2>
+                <div class="w-32 h-0.5 bg-dore mx-auto mb-8"></div>
+                <p class="text-gray-600 text-lg max-w-3xl mx-auto leading-relaxed">Découvrez nos dernières créations et suivez notre quotidien sur Instagram</p>
+            </div>
+            
+            <!-- Instagram Gallery Alternative -->
+            <div class="bg-white rounded-2xl shadow-xl p-8 mb-12">
+                <div class="text-center mb-8">
+                    <h3 class="text-2xl serif text-bordeaux mb-4">Notre Galerie Instagram</h3>
+                    <p class="text-gray-600">Découvrez nos créations sur @bougiedecos</p>
+                </div>
+                
+                <!-- Gallery Instagram avec liens directs -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1596433809252-260c2745dfdd?auto=format&fit=crop&q=80&w=400" alt="Instagram 1" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?auto=format&fit=crop&q=80&w=400" alt="Instagram 2" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1572726710708-2182fa571932?auto=format&fit=crop&q=80&w=400" alt="Instagram 3" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1585322316279-0c2d7a2c8c2b?auto=format&fit=crop&q=80&w=400" alt="Instagram 4" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&q=80&w=400" alt="Instagram 5" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1603006905003-be475563bc59?auto=format&fit=crop&q=80&w=400" alt="Instagram 6" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1596433809252-260c2745dfdd?auto=format&fit=crop&q=80&w=400" alt="Instagram 7" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="relative overflow-hidden rounded-lg aspect-square group">
+                        <img src="https://images.unsplash.com/photo-1602874801007-bd458bb1b8b6?auto=format&fit=crop&q=80&w=400" alt="Instagram 8" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                        <div class="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition duration-300 flex items-center justify-center">
+                            <i class="fab fa-instagram text-white text-2xl opacity-0 group-hover:opacity-100 transition duration-300"></i>
+                        </div>
+                    </a>
+                </div>
+                
+                <!-- Message informatif -->
+                <div class="text-center bg-gray-50 rounded-lg p-6 border border-dore/20">
+                    <i class="fab fa-instagram text-3xl text-dore mb-3"></i>
+                    <p class="text-gray-600 text-sm">Cliquez sur n'importe quelle image pour découvrir notre galerie complète sur Instagram</p>
+                </div>
+            </div>
+            
+            <!-- Boutons d'action -->
+            <div class="text-center">
+                <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="btn-primary inline-block mr-4">Suivez-nous sur Instagram</a>
+                <a href="https://www.instagram.com/bougiedecos/tagged/" target="_blank" class="border border-dore text-dore px-8 py-4 rounded-full hover:bg-dore hover:text-white transition-all duration-300">Voir nos produits</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Section Newsletter -->
+    <section class="py-24 px-8 bg-bordeaux text-white">
+        <div class="max-w-3xl mx-auto text-center">
+            <h3 class="text-3xl serif italic mb-4">Abonnez-vous à notre newsletter</h3>
+            <p class="text-gray-300 mb-8">Recevez en exclusivité nos nouveautés, offres spéciales et conseils pour profiter au mieux de vos bougies.</p>
+            <div class="flex flex-col md:flex-row gap-4 max-w-md mx-auto">
+                <input type="email" placeholder="Votre adresse email" class="flex-grow px-6 py-3 rounded text-gray-800 focus:outline-none focus:ring-2 focus:ring-or">
+                <button class="bg-or text-bordeaux font-bold px-8 py-3 rounded uppercase tracking-widest hover:bg-opacity-90 transition">S'abonner</button>
+            </div>
+            <p class="text-xs text-gray-400 mt-4">En vous abonnant, vous acceptez de recevoir nos emails. Vous pouvez vous désabonner à tout moment.</p>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-bordeaux text-white py-16">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12">
+            <div>
+                <div class="flex items-center mb-4">
+                    <div class="w-12 h-12 mr-2 flex items-center justify-center">
+                        <img src="img/logo.png" alt="Bougie Déco Logo" class="w-full h-full object-contain">
+                    </div>
+                    <h4 class="serif text-2xl italic">Bougie Déco</h4>
+                </div>
+                <p class="text-gray-300 text-sm leading-relaxed">Créations artisanales françaises, coulées avec passion pour transformer vos moments de vie.</p>
+                <div class="flex space-x-4 mt-6">
+                    <a href="https://www.instagram.com/bougiedecos/" target="_blank" class="text-white hover:text-dore transition-colors duration-300"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white hover:text-dore transition-colors duration-300"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white hover:text-dore transition-colors duration-300"><i class="fab fa-pinterest"></i></a>
+                </div>
+            </div>
+            <div>
+                <h4 class="uppercase text-xs tracking-widest font-bold mb-4">Navigation</h4>
+                <ul class="text-sm space-y-2 text-gray-300">
+                    <li><a href="#accueil" class="hover:text-or transition">Accueil</a></li>
+                    <li><a href="#boutique" class="hover:text-or transition">Bougies</a></li>
+                    <li><a href="#fondants" class="hover:text-or transition">Fondants</a></li>
+                    <li><a href="#coffrets" class="hover:text-or transition">Coffrets</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="uppercase text-xs tracking-widest font-bold mb-4">Informations</h4>
+                <ul class="text-sm space-y-2 text-gray-300">
+                    <li><a href="#" class="hover:text-or">CGV</a></li>
+                    <li><a href="#" class="hover:text-or">Livraison & Retours</a></li>
+                    <li><a href="#" class="hover:text-or">Mentions légales</a></li>
+                    <li><a href="#" class="hover:text-or">Politique de confidentialité</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="uppercase text-xs tracking-widest font-bold mb-4">Contact</h4>
+                <ul class="text-sm space-y-2 text-gray-300">
+                    <li class="flex items-center">
+                        <i class="fas fa-map-marker-alt text-or mr-2"></i>
+                        <span>123 Rue des Artisans, 13000 Provence</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-phone text-or mr-2"></i>
+                        <span>04 12 34 56 78</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-envelope text-or mr-2"></i>
+                        <span>contact@bougiedeco.fr</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto px-6 mt-12 pt-8 border-t border-gray-700 text-center text-gray-400 text-sm">
+            <p>&copy; 2023 Bougie Déco. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <!-- Panier latéral -->
+    <div id="cart-sidebar" class="fixed top-0 right-0 w-full md:w-96 h-full bg-white shadow-2xl z-50 transform translate-x-full">
+        <div class="flex flex-col h-full">
+            <!-- En-tête du panier -->
+            <div class="bg-bordeaux text-white p-6 flex justify-between items-center">
+                <h3 class="text-xl serif italic">Votre Panier</h3>
+                <button id="close-cart" class="text-white hover:text-or text-2xl">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <!-- Liste des articles -->
+            <div id="cart-items" class="flex-grow overflow-y-auto p-6">
+                <!-- Les articles du panier seront ajoutés ici dynamiquement -->
+                <div id="empty-cart-message" class="text-center py-12">
+                    <i class="fas fa-shopping-bag text-gray-300 text-5xl mb-4"></i>
+                    <p class="text-gray-500">Votre panier est vide</p>
+                </div>
+            </div>
+            <!-- Total et bouton de commande -->
+            <div class="border-t p-6">
+                <div class="flex justify-between items-center mb-6">
+                    <span class="font-bold text-lg">Total</span>
+                    <span id="cart-total" class="text-or font-bold text-xl">0,00 €</span>
+                </div>
+                <button id="checkout-button" class="btn-primary w-full py-4 text-center" disabled>
+                    Commander
+                </button>
+                <p class="text-center text-gray-500 text-sm mt-4">Livraison gratuite à partir de 50€ d'achat</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overlay pour le panier -->
+    <div id="cart-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
+
+    <!-- Scripts -->
+    <script>
+        // Gestion du panier
+        let cart = [];
+        const cartSidebar = document.getElementById('cart-sidebar');
+        const cartOverlay = document.getElementById('cart-overlay');
+        const cartButton = document.getElementById('cart-button');
+        const closeCartButton = document.getElementById('close-cart');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const cartTotalElement = document.getElementById('cart-total');
+        const cartCountElement = document.getElementById('cart-count');
+        const emptyCartMessage = document.getElementById('empty-cart-message');
+        const checkoutButton = document.getElementById('checkout-button');
+
+        // Fonction pour mettre à jour le panier
+        function updateCart() {
+            // Mettre à jour le compteur
+            cartCountElement.textContent = cart.length;
+
+            // Mettre à jour la liste des articles
+            cartItemsContainer.innerHTML = '';
+            if (cart.length === 0) {
+                cartItemsContainer.appendChild(emptyCartMessage.cloneNode(true));
+                checkoutButton.disabled = true;
+                checkoutButton.textContent = 'Commander';
+                cartTotalElement.textContent = '0,00 €';
+                return;
+            }
+
+            // Calculer le total
+            let total = 0;
+
+            // Afficher chaque article
+            cart.forEach((item, index) => {
+                total += item.price * item.quantity;
+                const itemElement = document.createElement('div');
+                itemElement.className = 'flex items-center py-4 border-b';
+                itemElement.innerHTML = `
+                    <div class="w-16 h-16 rounded overflow-hidden flex-shrink-0">
+                        <img src="${item.image}" alt="${item.name}" class="w-full h-full object-cover">
+                    </div>
+                    <div class="ml-4 flex-grow">
+                        <h4 class="font-semibold text-bordeaux">${item.name}</h4>
+                        <p class="text-or font-bold">${item.price.toFixed(2)} €</p>
+                        <div class="flex items-center mt-2">
+                            <button class="decrease-quantity text-gray-500 px-2" data-index="${index}">
+                                <i class="fas fa-minus text-xs"></i>
+                            </button>
+                            <span class="mx-2">${item.quantity}</span>
+                            <button class="increase-quantity text-gray-500 px-2" data-index="${index}">
+                                <i class="fas fa-plus text-xs"></i>
+                            </button>
+                            <button class="remove-item text-red-500 ml-4 text-sm" data-index="${index}">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                cartItemsContainer.appendChild(itemElement);
+            });
+
+            // Mettre à jour le total
+            cartTotalElement.textContent = total.toFixed(2) + ' €';
+
+            // Activer le bouton de commande
+            checkoutButton.disabled = false;
+            checkoutButton.textContent = `Commander (${total.toFixed(2)} €)`;
+
+            // Ajouter les événements aux boutons
+            document.querySelectorAll('.decrease-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    if (cart[index].quantity > 1) {
+                        cart[index].quantity--;
+                    } else {
+                        cart.splice(index, 1);
+                    }
+                    updateCart();
+                });
+            });
+
+            document.querySelectorAll('.increase-quantity').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    cart[index].quantity++;
+                    updateCart();
+                });
+            });
+
+            document.querySelectorAll('.remove-item').forEach(button => {
+                button.addEventListener('click', function() {
+                    const index = parseInt(this.getAttribute('data-index'));
+                    cart.splice(index, 1);
+                    updateCart();
+                });
+            });
+        }
+
+        // Ouvrir le panier
+        cartButton.addEventListener('click', () => {
+            cartSidebar.classList.remove('translate-x-full');
+            cartSidebar.classList.add('cart-slide-in');
+            cartOverlay.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+
+        // Fermer le panier
+        closeCartButton.addEventListener('click', closeCart);
+        cartOverlay.addEventListener('click', closeCart);
+
+        function closeCart() {
+            cartSidebar.classList.add('cart-slide-out');
+            setTimeout(() => {
+                cartSidebar.classList.remove('cart-slide-in', 'cart-slide-out');
+                cartSidebar.classList.add('translate-x-full');
+                cartOverlay.classList.add('hidden');
+                document.body.style.overflow = 'auto';
+            }, 300);
+        }
+
+        // Ajouter au panier
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                const name = this.getAttribute('data-name');
+                const price = parseFloat(this.getAttribute('data-price'));
+                const image = this.getAttribute('data-image');
+
+                // Vérifier si l'article est déjà dans le panier
+                const existingItemIndex = cart.findIndex(item => item.name === name);
+                if (existingItemIndex !== -1) {
+                    // Augmenter la quantité
+                    cart[existingItemIndex].quantity++;
+                } else {
+                    // Ajouter un nouvel article
+                    cart.push({
+                        name: name,
+                        price: price,
+                        image: image,
+                        quantity: 1
+                    });
+                }
+
+                // Mettre à jour le panier
+                updateCart();
+
+                // Afficher une notification
+                showNotification(`${name} a été ajouté au panier`);
+
+                // Ouvrir le panier automatiquement
+                setTimeout(() => {
+                    cartSidebar.classList.remove('translate-x-full');
+                    cartSidebar.classList.add('cart-slide-in');
+                    cartOverlay.classList.remove('hidden');
+                    document.body.style.overflow = 'hidden';
+                }, 500);
+            });
+        });
+
+        // Fonction de notification
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'fixed top-4 right-4 bg-bordeaux text-white px-6 py-3 rounded shadow-lg z-50 transform translate-x-full';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+
+            setTimeout(() => {
+                notification.classList.add('translate-x-0');
+            }, 10);
+
+            setTimeout(() => {
+                notification.classList.remove('translate-x-0');
+                notification.classList.add('translate-x-full');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
+            }, 3000);
+        }
+
+        // Gestion du menu mobile
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuButton.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Fermer le menu mobile en cliquant sur un lien
+        document.querySelectorAll('#mobile-menu a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+            });
+        });
+
+        // Animation de défilement
+        function handleScrollAnimations() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (elementTop < windowHeight - 100) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Initialiser les animations
+        window.addEventListener('scroll', handleScrollAnimations);
+        window.addEventListener('load', handleScrollAnimations);
+        handleScrollAnimations();
+
+        // Commande
+        checkoutButton.addEventListener('click', () => {
+            if (cart.length > 0) {
+                showNotification('Commande effectuée avec succès !');
+                cart = [];
+                updateCart();
+                closeCart();
+            }
+        });
+
+        // Contrôle de la vidéo
+        const video = document.getElementById('bougie-video');
+        const overlay = document.getElementById('video-overlay');
+        
+        overlay.addEventListener('click', function() {
+            video.play();
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        });
+        
+        video.addEventListener('click', function() {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        });
+        
+        // Fonction pour lancer la vidéo (backup)
+        function launchVideo() {
+            video.play();
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+        }
+    </script>
+</body>
+</html>
